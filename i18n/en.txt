@@ -1,0 +1,3 @@
+locale|en
+
+DISCORD_STATUS_MINING|Mining in the rings
