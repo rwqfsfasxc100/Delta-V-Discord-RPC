@@ -123,11 +123,13 @@ func set_end_timer(time:int = 0,do_update = false):
 
 func set_state(text:String,do_update = false):
 	if connected:
-		rpc("set_state",TranslationServer.translate(text),do_update)
+		text = TranslationServer.translate(text)
+		rpc("set_state",text,do_update)
 
 func set_details(text:String,do_update = false):
 	if connected:
-		rpc("set_details",TranslationServer.translate(text),do_update)
+		text = TranslationServer.translate(text)
+		rpc("set_details",text,do_update)
 
 func update_rpc():
 	if connected:
