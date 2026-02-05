@@ -103,11 +103,11 @@ func set_icon(ship:String,force_this_icon = false,do_update = false):
 
 func set_icon_text(text:String,do_update = false):
 	if connected:
-		rpc("set_icon_text",text,do_update)
+		rpc("set_icon_text",TranslationServer.translate(text),do_update)
 
 func set_small_icon_text(text:String,do_update = false):
 	if connected:
-		rpc("set_small_icon_text",text,do_update)
+		rpc("set_small_icon_text",TranslationServer.translate(text),do_update)
 
 func set_small_icon(how:bool,do_update = false):
 	if connected:
@@ -123,11 +123,11 @@ func set_end_timer(time:int = 0,do_update = false):
 
 func set_state(text:String,do_update = false):
 	if connected:
-		rpc("set_state",text,do_update)
+		rpc("set_state",TranslationServer.translate(text),do_update)
 
 func set_details(text:String,do_update = false):
 	if connected:
-		rpc("set_details",text,do_update)
+		rpc("set_details",TranslationServer.translate(text),do_update)
 
 func update_rpc():
 	if connected:
