@@ -97,9 +97,9 @@ func _disconnected():
 	connected = false
 	start_timer()
 
-func set_icon(ship:String,do_update = false):
+func set_icon(ship:String,force_this_icon = false,do_update = false):
 	if connected:
-		rpc("set_icon",ship,do_update)
+		rpc("set_icon",ship,force_this_icon,do_update)
 
 func set_icon_text(text:String,do_update = false):
 	if connected:
