@@ -5,6 +5,8 @@ const DEFAULT_PORT = 28041
 
 export var reconnect_delay = 3
 
+export var update_delay = 4.5
+
 var current_icon = ""
 var current_icon_text = ""
 var current_small_icon = ""
@@ -17,9 +19,9 @@ var current_details = ""
 var loaded = false
 var scene = ""
 
-func loader_changed(how):
+func loader_changed(area):
 	if loaded:
-		scene = how
+		scene = area
 		yield(get_tree(),"idle_frame")
 		
 		
@@ -35,7 +37,11 @@ func loader_changed(how):
 		
 		
 		
+var update_timer = Timer.new()
 
+func update_timer_finished():
+	update_rpc()
+	update_timer.start(update_delay/Engine.get_time_scale())
 
 func _ready():
 	print("DiscordRPC: loaded")
@@ -45,7 +51,15 @@ func _ready():
 	timer.name = "HUDTIMER"
 	timer.connect("ready",self,"start_timer")
 	timer.connect("timeout",self,"recheck")
+	
+	update_timer.wait_time = reconnect_delay
+	update_timer.one_shot = true
+	update_timer.name = "UPDATE_TIMER"
+	update_timer.connect("timeout",self,"update_timer_finished")
+	
+	
 	call_deferred("add_child",timer)
+	call_deferred("add_child",update_timer)
 	get_tree().connect("server_disconnected",self,"_disconnected")
 	get_tree().connect("connection_failed",self,"_disconnected")
 	get_tree().connect("connected_to_server",self,"_connected_to_server")
@@ -90,12 +104,14 @@ func _connected_to_server():
 	set_state(current_state)
 	set_start_timer(current_start_timer)
 	update_rpc()
+	update_timer.start(update_delay/Engine.get_time_scale())
 
 func _disconnected():
 	Debug.l("DiscordRPC: disconnected")
 	print("DiscordRPC: disconnected")
 	connected = false
 	start_timer()
+	update_timer.stop()
 
 func set_icon(ship:String,force_this_icon = false,do_update = false):
 	if connected:
