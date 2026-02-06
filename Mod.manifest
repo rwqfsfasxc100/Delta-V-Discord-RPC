@@ -10,7 +10,7 @@ credits=["   --- Supporters ---   ","GAZI - supporter (ko-fi)"]
 [version]
 
 version_major=1
-version_minor=1
+version_minor=0
 version_bugfix=0
 version_metadata=""
 
