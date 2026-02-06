@@ -19,29 +19,71 @@ var current_details = ""
 var loaded = false
 var scene = ""
 
-func loader_changed(area):
+func loader_changed(area,how_specific = ""):
 	if loaded:
+		print("DiscordRPC: changing RPC load to [%s], specific section? [%s]" % [area,how_specific])
 		scene = area
 		yield(get_tree(),"idle_frame")
-		
-		
-		
 		match scene:
 			"enceladus":
 				pass
+				
+				
+				
+				
+				
 			"title_screen":
-				pass
+				var current_subsection = ""
+				match how_specific:
+					"simulator":
+						current_subsection = "simulator"
+				
+				if not current_icon == "enceladus":
+					current_icon = "enceladus"
+				
+				
+				
+				
 			"ring":
-				pass
-		
-		
-		
-		
+				if (not current_icon in validShipIcons) or (not current_icon == "empty"):
+					var shipIcon = "empty"
+					var playership = CurrentGame.getPlayerShip()
+					var thisShip = ""
+					if "baseShipName" in playership and playership.baseShipName in validShips:
+						thisShip = playership.baseShipName
+					if "shipName" in playership and playership.shipName in validShips:
+						thisShip = playership.shipName
+					if thisShip in validShips:
+						shipIcon = validShips[thisShip]
+					current_icon = shipIcon
+				
 var update_timer = Timer.new()
 
 func update_timer_finished():
 	update_rpc()
 	update_timer.start(update_delay/Engine.get_time_scale())
+
+export var validShips = {
+	"SHIP_TRTL":"k37",
+	"SHIP_AT225":"k225",
+	"SHIP_COTHON":"cothon",
+	"SHIP_PROSPECTOR_BALD":"bald_eagle",
+	"SHIP_PROSPECTOR":"prospector",
+	"SHIP_EIME":"model_e",
+	"SHIP_KITSUNE":"kitsune",
+	"SHIP_OCP209":"ocp",
+}
+
+var validShipIcons = [
+	"k37",
+	"k225",
+	"cothon",
+	"bald_eagle",
+	"prospector",
+	"model_e",
+	"kitsune",
+	"ocp",
+]
 
 func _ready():
 	print("DiscordRPC: loaded")
