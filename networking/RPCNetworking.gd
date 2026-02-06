@@ -9,57 +9,113 @@ export var update_delay = 4.5
 
 var current_icon = ""
 var current_icon_text = ""
-var current_small_icon = ""
+var current_small_icon = "icon"
 var current_small_icon_text = ""
-var current_start_timer = 0
+onready var current_start_timer = OS.get_unix_time()
 var current_end_timer = 0
 var current_state = ""
 var current_details = ""
 
 var loaded = false
-var scene = ""
 
-func loader_changed(area,how_specific = ""):
-	if loaded:
-		print("DiscordRPC: changing RPC load to [%s], specific section? [%s]" % [area,how_specific])
-		scene = area
-		yield(get_tree(),"idle_frame")
-		match scene:
-			"enceladus":
-				pass
-				
-				
-				
-				
+signal rpc_timer_complete()
+
+var stack = ["","","",""]
+var currentStack = 0
+func loader_changed(area,level = 0,how_specific = "",custom_data = {}):
+	if custom_data.keys().size() > 0:
+		pass
+	elif loaded:
+		if area != stack[0]:
+			current_start_timer = OS.get_unix_time()
+			currentStack = 0
+			stack[0] = area
+		var prev = currentStack
+		currentStack = level
+#		print("stack change: from [%s] to [%s]" % [prev,currentStack])
+		if how_specific != "":
+			stack[currentStack] = how_specific
+#		print("(%s)" % str(stack))
+		var playership = CurrentGame.getPlayerShip()
+		
+		match stack[0]:
+			"enceladus","enceladus_prime":
+				current_icon = "enceladus_prime"
+				current_details = "DISCORD_AT_ENCELADUS"
+				current_state = "DISCORD_AT_ENCELADUS"
+				var sn = playership.getShipName()
+				match stack[currentStack]:
+					"simulator":
+						current_details = TranslationServer.translate("DISCORD_IN_MVFS") % sn
+					"dive_summary":
+						current_details = "DISCORD_IN_DIVE_SUMMARY"
+					"dive_target":
+						current_details = "DISCORD_IN_DIVE_TARGET"
+					"mineral_market":
+						current_details = "DISCORD_IN_MINERAL_MARKET"
+					"repairs":
+						current_details = TranslationServer.translate("DISCORD_IN_REPAIRS") % sn
+					"inspection":
+						current_details = TranslationServer.translate("DISCORD_IN_INSPECTIONS") % sn
+					"equipment":
+						current_details = TranslationServer.translate("DISCORD_IN_EQUIPMENT") % sn
+					"tuning":
+						current_details = TranslationServer.translate("DISCORD_IN_TUNING") % sn
+					"ship_logs":
+						current_details = "DISCORD_IN_SHIP_LOGS"
+					"crew":
+						current_details = "DISCORD_IN_CREW"
+					"fleet":
+						current_details = "DISCORD_IN_FLEET"
+					"dealer":
+						current_details = "DISCORD_IN_DEALER"
+					"services":
+						current_details = "DISCORD_IN_SERVICES"
 				
 			"title_screen":
-				var current_subsection = ""
-				match how_specific:
-					"simulator":
-						current_subsection = "simulator"
-				
-				if not current_icon == "enceladus":
-					current_icon = "enceladus"
-				
-				
+				current_icon = "empty"
+				current_details = "DISCORD_TITLE_SCREEN"
+				current_state = "DISCORD_TITLE_SCREEN"
 				
 				
 			"ring":
-				if (not current_icon in validShipIcons) or (not current_icon == "empty"):
-					var shipIcon = "empty"
-					var playership = CurrentGame.getPlayerShip()
-					var thisShip = ""
-					if "baseShipName" in playership and playership.baseShipName in validShips:
-						thisShip = playership.baseShipName
-					if "shipName" in playership and playership.shipName in validShips:
-						thisShip = playership.shipName
-					if thisShip in validShips:
-						shipIcon = validShips[thisShip]
-					current_icon = shipIcon
+				current_details = "DISCORD_IN_RING"
+				current_state = "DISCORD_IN_RING"
 				
+				match how_specific:
+					"western","western2":
+						current_details = "DISCORD_HIGH_DENSITY"
+					"mystery","mystery2":
+						current_details = "DISCORD_ODDITIES"
+					"spooky":
+						current_details = "DISCORD_SPOOKY"
+					"dare":
+						current_details = "DISCORD_DARE"
+					"battle":
+						current_details = "DISCORD_BATTLE"
+					"boss":
+						current_details = "DISCORD_BOSS"
+					"peril":
+						current_details = "DISCORD_PERIL"
+					"l:G4A":
+						pass
+					"l:locust":
+						current_details = "DISCORD_LOCUSTS"
+				
+				var shipIcon = "empty"
+				var thisShip = ""
+				if "baseShipName" in playership and playership.baseShipName in validShips:
+					thisShip = playership.baseShipName
+				if "shipName" in playership and playership.shipName in validShips:
+					thisShip = playership.shipName
+				if thisShip in validShips:
+					shipIcon = validShips[thisShip]
+				current_icon = shipIcon
+	
 var update_timer = Timer.new()
 
 func update_timer_finished():
+	emit_signal("rpc_timer_complete")
 	update_rpc()
 	update_timer.start(update_delay/Engine.get_time_scale())
 
@@ -137,7 +193,7 @@ func _connected_to_server():
 	if current_icon == "":
 		current_icon = "empty"
 	if current_details == "":
-		current_details = "Connected to game"
+		current_details = "DISCORD_TITLE_SCREEN"
 	
 	
 	
@@ -148,14 +204,14 @@ func _connected_to_server():
 	update_rpc()
 	update_timer.start(update_delay/Engine.get_time_scale())
 
-func _disconnected():
+func _disconnected(how = ""):
 	Debug.l("DiscordRPC: disconnected")
 	print("DiscordRPC: disconnected")
 	connected = false
 	start_timer()
 	update_timer.stop()
 
-func set_icon(ship:String,force_this_icon = false,do_update = false):
+func set_icon(ship:String,force_this_icon = true,do_update = false):
 	if connected:
 		rpc("set_icon",ship,force_this_icon,do_update)
 
@@ -167,9 +223,9 @@ func set_small_icon_text(text:String,do_update = false):
 	if connected:
 		rpc("set_small_icon_text",TranslationServer.translate(text),do_update)
 
-func set_small_icon(how:bool,do_update = false):
+func set_small_icon(how,force_this_icon = true,do_update = false):
 	if connected:
-		rpc("set_small_icon",how,do_update)
+		rpc("set_small_icon",how,force_this_icon,do_update)
 
 func set_start_timer(time:int = OS.get_unix_time(),do_update = false):
 	if connected:
@@ -187,7 +243,19 @@ func set_details(text:String,do_update = false):
 	if connected:
 		rpc("set_details",TranslationServer.translate(text),do_update)
 
+
+
 func update_rpc():
 	if connected:
+		set_icon(current_icon)
+		set_icon_text(current_icon_text)
+		set_small_icon(current_small_icon)
+		set_small_icon_text(current_small_icon_text)
+		set_start_timer(current_start_timer)
+		set_end_timer(current_end_timer)
+		set_state(current_state)
+		set_details(current_details)
+		
 		rpc("update_rpc")
+#		print("DiscordRPC: sending changes")
 

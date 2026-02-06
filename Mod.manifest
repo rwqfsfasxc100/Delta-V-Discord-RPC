@@ -1,0 +1,36 @@
+[mod_information]
+
+name="Delta V Discord RPC"
+id="hev.DiscordRPC"
+description="DISCORD_DESCRIPTION"
+brief="DISCORD_BRIEF"
+author="__hev"
+credits=["   --- Supporters ---   ","GAZI - supporter (ko-fi)"]
+
+[version]
+
+version_major=1
+version_minor=1
+version_bugfix=0
+version_metadata=""
+
+[tags]
+
+TAG_ALLOW_ACHIEVEMENTS={"type":"bool","value":true}
+TAG_QOL={"type":"bool","value":true}
+
+[languages]
+
+en="100%"
+
+[links]
+
+HEVLIB_DISCORD={"URL":"https://discord.com/channels/426287934870781952/1468767451004141760"}
+HEVLIB_DONATIONS={"URL":"https://ko-fi.com/00hev"}
+HEVLIB_BUGREPORTS={"URL":"https://forms.gle/vUoarawnYjy3hXJi9"}
+
+[manifest_definitions]
+
+manifest_version=2.2
+manifest_url="https://raw.githubusercontent.com/rwqfsfasxc100/Hevs-More-Minerals/main/Mod.manifest"
+changelog_path="changelog.txt"

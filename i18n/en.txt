@@ -1,3 +1,55 @@
 locale|en
 
+DISCORD_DESCRIPTION|Adds a Discord RPC implementation.\n\nRequires an external application to connect to Discord due to technical limitations, and a link to the repository can be found in the links section
+
+DISCORD_BRIEF|Adds a Discord RPC implementation.
+
 DISCORD_STATUS_MINING|Mining in the rings
+
+DISCORD_AT_ENCELADUS|At Enceladus Prime
+
+DISCORD_IN_MVFS|Testing %s inside the MVFS
+
+DISCORD_TITLE_SCREEN|On the Title Screen
+
+DISCORD_IN_RING|In Saturn's Rings
+
+DISCORD_IN_DIVE_SUMMARY|Viewing the last dive summary
+
+DISCORD_IN_DIVE_TARGET|Choosing a dive target
+
+DISCORD_IN_MINERAL_MARKET|Viewing the mineral market
+
+DISCORD_IN_REPAIRS|Performing repairs on %s
+
+DISCORD_IN_INSPECTIONS|Putting %s through inspections
+
+DISCORD_IN_EQUIPMENT|Swapping out %s's equipment
+
+DISCORD_IN_TUNING|Tuning up %s
+
+DISCORD_IN_SHIP_LOGS|Viewing the ship's logs
+
+DISCORD_IN_CREW|Dealing with crew
+
+DISCORD_IN_FLEET|Observing the company's fleet
+
+DISCORD_IN_DEALER|Looking at buying a new ship
+
+DISCORD_IN_SERVICES|Checking available services
+
+DISCORD_HIGH_DENSITY|In a high-density region
+
+DISCORD_ODDITIES|Nearby anomolous objects
+
+DISCORD_SPOOKY|Around some unfortunate circumstances
+
+DISCORD_DARE|Flying fast!
+
+DISCORD_BATTLE|Around combatants
+
+DISCORD_BOSS|Around dangerous combatants
+
+DISCORD_PERIL|Undergoing ship damage!
+
+DISCORD_LOCUSTS|Encompassed by the swarm!

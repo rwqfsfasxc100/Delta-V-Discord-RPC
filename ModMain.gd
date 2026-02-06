@@ -26,8 +26,20 @@ func _init(modLoader = ModLoader):
 	replaceScene("music/Music.tscn")
 	installScriptExtension("TitleMenu.gd")
 	replaceScene("TitleScreen.tscn")
-	installScriptExtension("Game.gd")
-	replaceScene("Game.tscn")
+	
+	installScriptExtension("enceladus/Crew.gd")
+	installScriptExtension("enceladus/Dealer.gd")
+	installScriptExtension("enceladus/DiveTarget.gd")
+	installScriptExtension("enceladus/Logs.gd")
+	installScriptExtension("enceladus/MineralMarket.gd")
+	installScriptExtension("enceladus/PreFlightInspection.gd")
+	installScriptExtension("enceladus/Repairs.gd")
+	installScriptExtension("enceladus/Services.gd")
+	installScriptExtension("enceladus/SimulationLayer.gd")
+	installScriptExtension("enceladus/Summary.gd")
+	installScriptExtension("enceladus/Tuning.gd")
+	installScriptExtension("enceladus/Upgrades.gd")
+	
 	installScriptExtension("enceladus/Enceladus.gd")
 	replaceScene("enceladus/Enceladus.tscn")
 	# Code to handle a mod checker script (available through HevLib's examples folder)
@@ -39,12 +51,14 @@ func _init(modLoader = ModLoader):
 #	add_child(mc)
 	
 	# Loads translation file. For this example, the english translation file is used. 
-#	updateTL("i18n/en.txt", "|")
+	updateTL("i18n/en.txt", "|")
 	
 # Do stuff on ready
 # At this point all AutoLoads are available and the game is loaded
 func _ready():
 	
+	installScriptExtension("Game.gd")
+	replaceScene("Game.tscn")
 	l("Readying")
 	var network = Node.new()
 	network.set_script(load("res://Delta-V-Discord-RPC/networking/RPCNetworking.gd"))
