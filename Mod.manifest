@@ -28,9 +28,10 @@ en="100%"
 HEVLIB_DISCORD={"URL":"https://discord.com/channels/426287934870781952/1468767451004141760"}
 HEVLIB_DONATIONS={"URL":"https://ko-fi.com/00hev"}
 HEVLIB_BUGREPORTS={"URL":"https://forms.gle/vUoarawnYjy3hXJi9"}
+DISCORD_APPLICATION={"URL":"https://github.com/rwqfsfasxc100/Delta-V-Discord-RPC-Application"}
 
 [manifest_definitions]
 
 manifest_version=2.2
-manifest_url="https://raw.githubusercontent.com/rwqfsfasxc100/Hevs-More-Minerals/main/Mod.manifest"
+manifest_url="https://raw.githubusercontent.com/rwqfsfasxc100/Delta-V-Discord-RPC/main/Mod.manifest"
 changelog_path="changelog.txt"

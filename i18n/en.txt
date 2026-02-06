@@ -4,6 +4,8 @@ DISCORD_DESCRIPTION|Adds a Discord RPC implementation.\n\nRequires an external a
 
 DISCORD_BRIEF|Adds a Discord RPC implementation.
 
+DISCORD_APPLICATION|Required application link
+
 DISCORD_STATUS_MINING|Mining in the rings
 
 DISCORD_AT_ENCELADUS|At Enceladus Prime

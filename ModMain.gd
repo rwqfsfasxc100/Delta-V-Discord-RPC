@@ -40,8 +40,6 @@ func _init(modLoader = ModLoader):
 	installScriptExtension("enceladus/Tuning.gd")
 	installScriptExtension("enceladus/Upgrades.gd")
 	
-	installScriptExtension("enceladus/Enceladus.gd")
-	replaceScene("enceladus/Enceladus.tscn")
 	# Code to handle a mod checker script (available through HevLib's examples folder)
 	# Disabled by default, but if added must be placed in the same folder as the ModMain.gd script.
 	# This is used to check for a dependant mod existing, as well as for a version derived from the manifest or modmain script.
@@ -57,6 +55,8 @@ func _init(modLoader = ModLoader):
 # At this point all AutoLoads are available and the game is loaded
 func _ready():
 	
+	installScriptExtension("enceladus/Enceladus.gd")
+	replaceScene("enceladus/Enceladus.tscn")
 	installScriptExtension("Game.gd")
 	replaceScene("Game.tscn")
 	l("Readying")
